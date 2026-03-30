@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlashDash — Job Tracking & Invoicing for Service Businesses</title>
+<meta name="description" content="Log jobs in seconds, track what's paid, and generate invoices with one tap. Built for service businesses that work in the field. $29/mo or $199 lifetime.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0f172a; --surface: #1e293b; --border: #334155;
+  --text: #f1f5f9; --muted: #94a3b8; --accent: #3b82f6;
+  --accent-hover: #2563eb; --green: #22c55e; --amber: #f59e0b;
+}
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+
+/* Nav */
+.nav { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(16px); background: rgba(15,23,42,0.85); border-bottom: 1px solid var(--border); }
+.nav-inner { max-width: 1080px; margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { font-weight: 900; font-size: 20px; display: flex; align-items: center; gap: 8px; }
+.nav-logo .icon { width: 32px; height: 32px; border-radius: 8px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.nav-links { display: flex; gap: 8px; align-items: center; }
+.nav-links a { font-size: 14px; color: var(--muted); font-weight: 500; padding: 8px 12px; border-radius: 8px; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text); }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 12px; font-weight: 700; font-size: 15px; border: none; cursor: pointer; transition: all 0.2s; }
+.btn-primary { background: var(--accent); color: #fff; box-shadow: 0 4px 24px rgba(59,130,246,0.3); }
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 6px 32px rgba(59,130,246,0.4); }
+.btn-outline { background: transparent; color: var(--text); border: 2px solid var(--border); }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+.btn-sm { padding: 10px 20px; font-size: 14px; }
+
+/* Hero */
+.hero { max-width: 780px; margin: 0 auto; padding: 100px 24px 80px; text-align: center; }
+.hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2); color: var(--accent); font-size: 13px; font-weight: 600; padding: 6px 16px; border-radius: 100px; margin-bottom: 28px; }
+.hero h1 { font-size: clamp(36px, 6vw, 60px); font-weight: 900; line-height: 1.08; letter-spacing: -0.04em; margin-bottom: 20px; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero p { font-size: 19px; color: var(--muted); max-width: 560px; margin: 0 auto 36px; }
+.hero-buttons { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.hero-sub { font-size: 13px; color: var(--muted); margin-top: 16px; }
+
+/* Logos / Trust */
+.trust { padding: 40px 24px 60px; text-align: center; }
+.trust p { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 20px; }
+.trust-items { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; opacity: 0.5; }
+.trust-items span { font-size: 15px; font-weight: 700; color: var(--muted); }
+
+/* Problem */
+.problem { padding: 80px 24px; border-top: 1px solid var(--border); }
+.problem-inner { max-width: 720px; margin: 0 auto; }
+.problem-inner h2 { font-size: 34px; font-weight: 800; margin-bottom: 12px; line-height: 1.2; }
+.problem-inner .lead { font-size: 17px; color: var(--muted); margin-bottom: 40px; }
+.pain-grid { display: grid; gap: 16px; }
+.pain-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; display: flex; gap: 16px; }
+.pain-num { flex-shrink: 0; width: 36px; height: 36px; border-radius: 10px; background: rgba(239,68,68,0.12); color: #ef4444; font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+.pain-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.pain-card p { font-size: 14px; color: var(--muted); line-height: 1.5; }
+
+/* Solution */
+.solution { padding: 80px 24px; background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.solution-inner { max-width: 960px; margin: 0 auto; }
+.section-label { text-transform: uppercase; font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 12px; text-align: center; }
+.solution-inner h2 { font-size: 34px; font-weight: 800; text-align: center; margin-bottom: 8px; }
+.solution-inner .lead { font-size: 17px; color: var(--muted); text-align: center; margin-bottom: 48px; }
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.feature-card { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; padding: 28px; transition: border-color 0.2s; }
+.feature-card:hover { border-color: var(--accent); }
+.feature-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 16px; }
+.feature-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+.feature-card p { font-size: 14px; color: var(--muted); line-height: 1.5; }
+
+/* How it works */
+.steps { padding: 80px 24px; }
+.steps-inner { max-width: 720px; margin: 0 auto; }
+.steps-inner h2 { font-size: 34px; font-weight: 800; text-align: center; margin-bottom: 48px; }
+.step-list { display: flex; flex-direction: column; gap: 32px; }
+.step { display: flex; gap: 20px; align-items: flex-start; }
+.step-num { flex-shrink: 0; width: 52px; height: 52px; border-radius: 14px; background: var(--accent); color: #fff; font-weight: 900; font-size: 22px; display: flex; align-items: center; justify-content: center; }
+.step-content h3 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+.step-content p { font-size: 15px; color: var(--muted); }
+
+/* Pricing */
+.pricing { padding: 80px 24px; background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.pricing-inner { max-width: 880px; margin: 0 auto; text-align: center; }
+.pricing-inner h2 { font-size: 34px; font-weight: 800; margin-bottom: 8px; }
+.pricing-inner .lead { font-size: 17px; color: var(--muted); margin-bottom: 48px; }
+.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+.price-card { background: var(--bg); border: 1px solid var(--border); border-radius: 20px; padding: 36px 28px; text-align: left; position: relative; }
+.price-card.featured { border-color: var(--accent); box-shadow: 0 0 40px rgba(59,130,246,0.15); }
+.price-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #fff; font-size: 12px; font-weight: 700; padding: 4px 16px; border-radius: 100px; }
+.price-card h3 { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+.price-card .desc { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+.price-amount { font-size: 48px; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 4px; }
+.price-amount span { font-size: 18px; font-weight: 500; color: var(--muted); }
+.price-period { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+.price-features { list-style: none; margin-bottom: 28px; display: flex; flex-direction: column; gap: 12px; }
+.price-features li { font-size: 14px; display: flex; gap: 10px; align-items: flex-start; }
+.price-features li::before { content: '\2713'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+.price-card .btn { width: 100%; justify-content: center; }
+
+/* FAQ */
+.faq { padding: 80px 24px; }
+.faq-inner { max-width: 640px; margin: 0 auto; }
+.faq-inner h2 { font-size: 34px; font-weight: 800; text-align: center; margin-bottom: 40px; }
+.faq-item { border-bottom: 1px solid var(--border); padding: 20px 0; }
+.faq-item summary { font-weight: 700; font-size: 16px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; color: var(--text); }
+.faq-item summary::after { content: '+'; font-size: 22px; color: var(--muted); transition: transform 0.2s; }
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-item p { margin-top: 12px; font-size: 15px; color: var(--muted); line-height: 1.6; }
+
+/* Final CTA */
+.final-cta { padding: 100px 24px; text-align: center; background: linear-gradient(180deg, var(--bg) 0%, #0c1222 100%); }
+.final-cta h2 { font-size: clamp(28px, 5vw, 42px); font-weight: 900; margin-bottom: 12px; }
+.final-cta p { font-size: 18px; color: var(--muted); margin-bottom: 36px; max-width: 520px; margin-left: auto; margin-right: auto; }
+.final-cta .hero-sub { margin-top: 16px; }
+
+/* Footer */
+.footer { padding: 32px 24px; text-align: center; border-top: 1px solid var(--border); }
+.footer p { font-size: 13px; color: var(--muted); }
+.footer a { color: var(--accent); font-weight: 600; }
+
+@media (max-width: 640px) {
+  .features { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .hero-buttons { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo"><div class="icon">&#9889;</div> FlashDash</div>
+    <div class="nav-links">
+      <a href="#pricing">Pricing</a>
+      <a href="#start" class="btn btn-primary btn-sm">Start Free Trial</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="start">
+  <div class="hero-badge">&#9889; Built for the field, not the office</div>
+  <h1>Log the job. Send the invoice. <em>Get paid.</em></h1>
+  <p>FlashDash is a mobile-first job tracker and invoice generator for service businesses. Create jobs in seconds, track what's paid, and send professional invoices — all from your phone.</p>
+  <div class="hero-buttons">
+    <a href="/app" class="btn btn-primary">Start 14-Day Free Trial &rarr;</a>
+    <a href="#demo" class="btn btn-outline">See How It Works</a>
+  </div>
+  <div class="hero-sub">No credit card required. Cancel anytime.</div>
+</section>
+
+<!-- Trust -->
+<section class="trust">
+  <p>Built for</p>
+  <div class="trust-items">
+    <span>Auto Detailers</span>
+    <span>Mobile Mechanics</span>
+    <span>Cleaning Services</span>
+    <span>Handymen</span>
+    <span>Landscapers</span>
+    <span>Photographers</span>
+  </div>
+</section>
+
+<!-- Problem -->
+<section class="problem">
+  <div class="problem-inner">
+    <h2>You're running a business from your truck. Your tools should keep up.</h2>
+    <p class="lead">You're between jobs, hands dirty, phone buzzing. The last thing you need is a clunky app that wasn't built for how you actually work.</p>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-num">1</div>
+        <div>
+          <h3>You're tracking jobs in your head (or a notebook)</h3>
+          <p>Who owes you money? Which job is done? What did you quote that guy last Tuesday? If the answer is "let me check my texts," you're losing money.</p>
+        </div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-num">2</div>
+        <div>
+          <h3>Creating invoices takes longer than the job itself</h3>
+          <p>Opening a laptop, finding a template, filling it in manually, exporting, emailing. By the time you finish, you've lost momentum on the next job.</p>
+        </div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-num">3</div>
+        <div>
+          <h3>You don't know your numbers</h3>
+          <p>How much did you make this week? How many jobs are unpaid? If you can't answer in 3 seconds, you're flying blind — and leaving money on the table.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Solution -->
+<section class="solution" id="demo">
+  <div class="solution-inner">
+    <div class="section-label">The Solution</div>
+    <h2>Your entire business, in your pocket.</h2>
+    <p class="lead">FlashDash replaces the notebook, the spreadsheet, the invoice template, and the calculator. One app.</p>
+    <div class="features">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(59,130,246,0.12);color:#3b82f6;">&#9889;</div>
+        <h3>One-Tap Job Creation</h3>
+        <p>Pre-set your services and prices. Tap to select, enter the client, hit Create. New job logged in under 10 seconds.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(34,197,94,0.12);color:#22c55e;">&#10003;</div>
+        <h3>Status Tracking</h3>
+        <p>Every job moves through In Progress, Completed, and Paid. One tap to advance. Always know where your money is.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(245,158,11,0.12);color:#f59e0b;">&#128196;</div>
+        <h3>Instant Invoice PDFs</h3>
+        <p>Generate a branded PDF invoice with your logo, business info, and Stripe payment link. One tap. Send it before you drive away.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(168,85,247,0.12);color:#a855f7;">&#128241;</div>
+        <h3>Works Offline</h3>
+        <p>No wifi on the job site? Doesn't matter. FlashDash stores everything locally. Works in dead zones, basements, and rural routes.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(236,72,153,0.12);color:#ec4899;">&#127912;</div>
+        <h3>Your Branding on Every Invoice</h3>
+        <p>Upload your logo, enter your business details, add your Stripe link. Every invoice goes out looking like a real company — because it is.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(6,182,212,0.12);color:#06b6d4;">&#128274;</div>
+        <h3>Install to Home Screen</h3>
+        <p>FlashDash is a PWA. Add it to your phone like a native app. No app store, no downloads. Open and go.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Steps -->
+<section class="steps">
+  <div class="steps-inner">
+    <h2>Set up once. Use it every day.</h2>
+    <div class="step-list">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Add your business info</h3>
+          <p>Name, phone, email, logo, Stripe link. Takes 2 minutes. This goes on every invoice automatically.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Set up your service menu</h3>
+          <p>Add each service you offer with a price. These become tappable buttons on the job creation screen. No typing, just tapping.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Create jobs and get paid</h3>
+          <p>Tap services, enter client info, create the job. When it's done, change the status and send the invoice. That's the whole workflow.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="pricing" id="pricing">
+  <div class="pricing-inner">
+    <div class="section-label">Pricing</div>
+    <h2>Simple pricing. No surprises.</h2>
+    <p class="lead">One tool, two ways to pay. Both include everything.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <h3>Monthly</h3>
+        <p class="desc">Full access, cancel anytime</p>
+        <div class="price-amount">$29<span>/mo</span></div>
+        <div class="price-period">Billed monthly</div>
+        <ul class="price-features">
+          <li>Unlimited jobs and invoices</li>
+          <li>Custom branding on every PDF</li>
+          <li>Service preset menu</li>
+          <li>Offline mode (works anywhere)</li>
+          <li>PWA install (phone app)</li>
+          <li>Stripe payment link on invoices</li>
+        </ul>
+        <a href="/app" class="btn btn-outline" style="width:100%;justify-content:center;">Start 14-Day Free Trial</a>
+      </div>
+      <div class="price-card featured">
+        <div class="price-badge">Best Value</div>
+        <h3>Lifetime</h3>
+        <p class="desc">Pay once, own it forever</p>
+        <div class="price-amount">$199</div>
+        <div class="price-period">One-time payment</div>
+        <ul class="price-features">
+          <li>Everything in Monthly</li>
+          <li>Founding member status</li>
+          <li>All future updates included</li>
+          <li>Priority feature requests</li>
+          <li>Never pay again</li>
+        </ul>
+        <a href="/app" class="btn btn-primary" style="width:100%;justify-content:center;">Get Lifetime Access &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="faq-inner">
+    <h2>Questions</h2>
+    <details class="faq-item">
+      <summary>Is there a free trial?</summary>
+      <p>Yes. 14 days, full access, no credit card required. If it doesn't save you time and money in two weeks, don't pay.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Does it work without internet?</summary>
+      <p>Yes. FlashDash stores everything locally on your device using IndexedDB. Create jobs, generate invoices, track status — all offline. Data syncs when you're back online.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Can I use my own Stripe link for payments?</summary>
+      <p>Yes. Add your Stripe payment link in Settings. It gets embedded in every invoice PDF so clients can pay with one click.</p>
+    </details>
+    <details class="faq-item">
+      <summary>What kind of businesses use FlashDash?</summary>
+      <p>Auto detailers, mobile mechanics, cleaning services, handymen, landscapers, photographers — anyone who does service work in the field and needs to track jobs and send invoices fast.</p>
+    </details>
+    <details class="faq-item">
+      <summary>What's the difference between FlashDash and SoloCraft?</summary>
+      <p>SoloCraft is a free invoice and proposal generator — great if you just need to create PDFs. FlashDash goes further: job creation, status tracking, service presets, offline mode, and one-tap invoicing. If you're running a service business with multiple jobs per day, FlashDash is built for you.</p>
+    </details>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="final-cta">
+  <h2>Stop losing track of jobs and money.</h2>
+  <p>FlashDash pays for itself the first time a client pays an invoice they would've forgotten about.</p>
+  <a href="/app" class="btn btn-primary">Start Your Free Trial &rarr;</a>
+  <div class="hero-sub">14 days free. No credit card. Cancel anytime.</div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <p>&copy; 2026 FlashDash. Built by <a href="https://tiktok.com/@choiceaura">Choice Aura</a> &middot; <a href="https://solocraft.netlify.app">Free Invoicing</a> &middot; <a href="https://portalpro.netlify.app">Client Portals</a></p>
+</footer>
+
+</body>
+</html>
